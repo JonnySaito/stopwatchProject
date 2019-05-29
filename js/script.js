@@ -1,7 +1,6 @@
 // None of our js will load until everything else has loaded first
 $(document).ready(function(){
 
-
 // setTimeout();
 // setTimeout(function(){
 //     console.log('this ran 3 seconds after page loading');
@@ -21,54 +20,94 @@ $(document).ready(function(){
 // }, 10000);
 //
 // });
+// MAKE 4 FUNCTIONS: START (use setInterval), PAUSE (clearInterval), CONTINUE (setInterval), RESET (clearInterval)
 
-    var secondsUnits = 0;
-    var secondsTens = 0;
-    var minutesUnits = 0;
-    var minutesTens = 0;
-    $('#stopButton').hide();
+    var secUnits = 0;
+    var secTens = 0;
+    var minUnits = 0;
+    var minTens = 0;
+    $('#pauseButton').hide();
+    $('#continueButton').hide();
+    $('#resetButton').hide();
 
     $('#startButton').click(function(){
-        var int = setInterval(function(){
-            secondsUnits ++
-            if(secondsUnits > 9){
-                secondsUnits == 0;
-                secondsTens++
-                if(secondsTens > 5){
-                    secondsTens == 0;
-                    minutesUnits ++
+        var runClock = setInterval(function(){
+            secUnits ++
+            if(secUnits > 9){
+                secUnits = 0;
+                secTens++
+                if(secTens > 5){
+                    secTens = 0;
+                    minUnits ++
+                    if (minUnits > 9){
+                      minUnits = 0;
+                      minTens ++
+                    }
                 }
             }
 
-        // console.log(minutesTens + minutesUnits + ":" + secondsTens + secondsUnits);
-
-        $("#minutesTens").text(minutesTens);
-        $("#minutesUnits").text(minutesUnits);
-        $("#secondsTens").text(secondsTens);
-        $("#secondsUnits").text(secondsUnits)
+        $("#minutesTens").text(minTens);
+        $("#minutesUnits").text(minUnits);
+        $("#secondsTens").text(secTens);
+        $("#secondsUnits").text(secUnits)
     }, 1000)
-      // setTimeout(function(){
-      //     clearTimeout(int);
-      //     console.log('Timeout has been cleared');
-      // }, 6000);
-      // var currentTime = (minutesTens + minutesUnits + ":" + secondsTens + secondsUnits);
 
-      $('#startButton').hide();
-      $('#stopButton').show();
+    $('#startButton').hide();
+    $('#pauseButton').show();
+
+    $('#pauseButton').click(function(){
+      clearInterval(runClock);
+      $('#pauseButton').hide();
+      $('#continueButton').show();
+      $('#resetButton').show();
+
+
+    });
+  });
+
+  $('#continueButton').click(function(){
+      var runClock = setInterval(function(){
+          secUnits ++
+          if(secUnits > 9){
+              secUnits = 0;
+              secTens++
+              if(secTens > 5){
+                  secTens = 0;
+                  minUnits ++
+                  if (minUnits > 9){
+                    minUnits = 0;
+                    minTens ++
+                  }
+              }
+          }
+      $("#minutesTens").text(minTens);
+      $("#minutesUnits").text(minUnits);
+      $("#secondsTens").text(secTens);
+      $("#secondsUnits").text(secUnits)
+      }, 1000)
+      $('#pauseButton').show();
+      $('#continueButton').hide();
+      $('#pauseButton').click(function(){
+        setTimeout(function(){
+        clearTimeout(runClock);
+      });
+      });
+
     });
 
-    setTimeout(function(){
-        $('#stopButton').click(function(){
-            clearTimeout(currentTime);
+    $('#resetButton').click(function(){
+      secUnits = 0;
+      secTens = 0;
+      minUnits = 0;
+      minTens = 0;
+      $("#minutesTens").text(0);
+      $("#minutesUnits").text(0);
+      $("#secondsTens").text(0);
+      $("#secondsUnits").text(0);
+      $('#pauseButton').hide();
+      $('#resetButton').hide();
+      $('#startButton').show();
+      $('#continueButton').hide();
+    });
 
-        })
-    })
-
-
-
-// MAKE 4 FUNCTIONS: START (Use set interval), PAUSE (clear interval), CONTINUE (set interval), RESET (clear interval)
-
-
-
-
-});
+})
